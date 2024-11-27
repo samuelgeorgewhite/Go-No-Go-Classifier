@@ -1,32 +1,21 @@
 """
 # 1. Load data (EMG signals, states, triggers)
 
-# 2. Segment data into Baseline, Preparation, and Cancellation windows
-for trial in trials:
-    segment_data()
+# 2. Segment trials into Baseline, Preparation (for No-Go trials), and Cancellation windows
 
-# 3. Reduce channels to 16 using PCA or other methods
-emg_reduced = apply_pca(emg_data, n_components=16)
+# 3. Reduce channels to 16 using PCA
 
-# 4. Bandpass filter (13–30 Hz) and downsample (512 Hz)
-emg_filtered = bandpass_filter(emg_reduced, 13, 30)
-emg_downsampled = downsample(emg_filtered, factor=4)
+# 4. Apple bandpass filter (13–30 Hz) to focus on beta-band and downsample (new_sr = 512 Hz)
 
 # 5. Normalize (MVC and z-score)
 emg_normalized = normalize_to_mvc(emg_downsampled)
 emg_standardized = standardize_across_trials(emg_normalized)
 
-# 6. Handle class imbalances with SMOTE
-X_resampled, y_resampled = balance_classes_with_smote(segments)
+# 6. Data augmentation (jitter, slight augmentations to frequency filtering)
 
-# 7. Data augmentation (jitter, filtering)
-augmented_data = augment_segments(X_resampled)
+# 8. Split into train, validation, test sets (by participant)
 
-# 8. Split into train, validation, test sets
-train, val, test = split_by_participant(augmented_data)
-
-# 9. Input processed data into classifier
-train_classifier(train, val, test)
+# 9. Prepare processed data for classifier training
 
 """
 
